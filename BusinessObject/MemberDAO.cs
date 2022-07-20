@@ -1,6 +1,8 @@
 ﻿using DataAccess.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace BusinessObject
@@ -25,6 +27,26 @@ namespace BusinessObject
             }
         }
 
+        public static bool Login(string email, string password)
+        {
+            {
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                string AdEmail = configuration["Admin:Email"];
+                string AdPassword = configuration["Admin:Password"];
+
+                if (email == AdEmail && password == AdPassword)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
         public IEnumerable<Member> GetMembers()
         {
             try
@@ -39,13 +61,24 @@ namespace BusinessObject
             }
         }
 
-        public Member GetMember(int memberId)
+#nullable enable
+        public Member GetMember(int? memberId, string? email, string? password)
         {
             try
             {
                 using FStore2Context context = new();
 
-                var member = context.Members.Find(memberId);
+                Member member = null!;
+
+                if (memberId != null)
+                {
+                    member = context.Members.Find(memberId);
+                }
+
+                if (email != null && password != null)
+                {
+                    member = context.Members.FirstOrDefault(m => m.Email == email && m.Password == password)!;
+                }
 
                 if (member == null)
                 {
