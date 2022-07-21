@@ -8,7 +8,7 @@ namespace DataAccess.Repository
     {
         public IEnumerable<Member> GetMembers() => MemberDAO.Instance.GetMembers();
 
-        public Member GetMember(int memberId) => MemberDAO.Instance.GetMember(memberId);
+        public Member GetMember(int memberId) => MemberDAO.Instance.GetMember(memberId,null,null);
 
         public void InsertMember(Member member) => MemberDAO.Instance.AddMember(member);
 

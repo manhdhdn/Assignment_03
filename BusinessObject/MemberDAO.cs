@@ -139,7 +139,7 @@ namespace BusinessObject
             {
                 using FStore2Context context = new();
 
-                var member = GetMember(memberId);
+                var member = GetMember(memberId,null,null);
 
                 if (context.Members.Any(m => m.MemberId == member.MemberId))
                 {
