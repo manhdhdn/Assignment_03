@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Member\" />
+    <Compile Remove="Views\Member\**" />
+    <Content Remove="Views\Member\**" />
+    <EmbeddedResource Remove="Views\Member\**" />
+    <None Remove="Views\Member\**" />
   </ItemGroup>
 
   <ItemGroup>
