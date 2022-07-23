@@ -15,18 +15,48 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Email)
                         @Html.TextBoxFor(m => m.Email, "", new { @class = "form-control", @placeholder = "Email" })
- 
+                        @ViewBag.Message1
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                        @ViewBag.Message2
                     </div>
-                    <div class="form-group">
+                    <div class="form-group">                        
                         <input type="submit" name="submit" class="btn btn-primary" value="Login"/>
+                        @ViewBag.Message3
                     </div>
                 }
             </div>
         </div>
     </div>
 </div>
+@*<h4 style="color:red; text-align: center">@ViewBag.Messeage</h4>
+<table align="center">
+    <h3 style="text-align:center">LOGIN</h3>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <tr style="height: 40px">
+            <td>Email </td>
+            <td>
+                @Html.TextBox("Email")
+                @ViewData["Loi1"]
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td align="right">Password</td>
+            <td>
+                @Html.Password("Password")
+                @ViewData["Loi2"]
+            </td>
+        </tr>
+        <tr style="height:40px">
+            <td></td>
+            <td>
+                <input type="Submit" value="Login" />
+            </td>
+        </tr>
+    }
+</table>*@
 

@@ -119,9 +119,9 @@ namespace BusinessObject
             {
                 using FStore2Context context = new();
 
-                if (context.Members.Any(m => m.MemberId == member.MemberId))
+                if (!context.Members.Any(m => m.MemberId == member.MemberId))
                 {
-                    throw new Exception("Not exists.");
+                    throw new Exception("Not exists.");  
                 }
 
                 context.Members.Update(member);
@@ -133,7 +133,7 @@ namespace BusinessObject
             }
         }
 
-        public void DeleteMember(int memberId)
+        public void DeleteMember(int? memberId)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace BusinessObject
 
                 var member = GetMember(memberId,null,null);
 
-                if (context.Members.Any(m => m.MemberId == member.MemberId))
+                if (!context.Members.Any(m => m.MemberId == member.MemberId))
                 {
                     throw new Exception("Not exists.");
                 }
