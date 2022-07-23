@@ -38,7 +38,12 @@ namespace eStore.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }     
+        }
+
+        public IActionResult ViewProduct()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

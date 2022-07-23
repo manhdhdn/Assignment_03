@@ -39,12 +39,12 @@ namespace DataAccess
                     result = result.Where(r => r.ProductName.Contains(name));
                 }
 
-                if (fromPrice != null)
+                if (fromPrice >= 0)
                 {
                     result = result.Where(r => r.UnitPrice > fromPrice);
                 }
 
-                if (toPrice != null)
+                if (fromPrice == null && toPrice != null || toPrice > fromPrice)
                 {
                     result = result.Where(r => r.UnitPrice < toPrice);
                 }
