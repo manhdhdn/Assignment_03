@@ -39,12 +39,12 @@ namespace DataAccess
                     result = result.Where(r => r.ProductName.Contains(name));
                 }
 
-                if (fromPrice != null)
+                if (fromPrice >= 0)
                 {
                     result = result.Where(r => r.UnitPrice > fromPrice);
                 }
 
-                if (toPrice != null)
+                if (fromPrice == null && toPrice != null || toPrice > fromPrice)
                 {
                     result = result.Where(r => r.UnitPrice < toPrice);
                 }
@@ -104,7 +104,7 @@ namespace DataAccess
             {
                 using FStore2Context context = new();
 
-                if (context.Products.Any(m => m.ProductId == product.ProductId))
+                if (!context.Products.Any(m => m.ProductId == product.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }
@@ -126,7 +126,7 @@ namespace DataAccess
 
                 var product = GetProduct(productId);
 
-                if (context.Products.Any(m => m.ProductId == product.ProductId))
+                if (!context.Products.Any(m => m.ProductId == product.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }
