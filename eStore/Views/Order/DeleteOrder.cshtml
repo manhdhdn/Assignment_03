@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "DeleteOrder";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "_LayoutAdmin";
 }
 
 <h1>DeleteOrder</h1>
@@ -51,6 +51,7 @@
     </dl>
     
     <form asp-action="DeleteOrder">
+        <input type="hidden" asp-for="OrderId" class="form-control" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="OrderPage">Back to List</a>
     </form>

@@ -1,7 +1,17 @@
-﻿@model DataAccess.Models.Member
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model DataAccess.Models.Member
 
 @{
     ViewData["Title"] = "EditMember";
+    if (HttpContextAccessor.HttpContext.Session.GetInt32("MemberID") == 0)
+    {
+        Layout = "_LayoutAdmin";
+    }
+    else
+    {
+        Layout = "_LayoutUser";
+    }
 }
 
 <h1>Edit</h1>

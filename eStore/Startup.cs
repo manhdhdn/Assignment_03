@@ -30,6 +30,7 @@ namespace eStore
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
         }
 
@@ -51,14 +52,14 @@ namespace eStore
             app.UseStaticFiles();
             app.UseSession();
             app.UseRouting();
-
+           
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Login}");
             });
         }
     }
