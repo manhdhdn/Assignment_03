@@ -9,7 +9,8 @@ namespace DataAccess.Repository
 
         IEnumerable<Member> GetMembers();
 
-        Member GetMember(int? memberId);
+#nullable enable
+        Member GetMember(int? memberId, string? email, string? password);
 
         void InsertMember(Member member);   
 

@@ -3,6 +3,7 @@ using DataAccess.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace eStore.Controllers
 {
@@ -13,13 +14,24 @@ namespace eStore.Controllers
         // GET: OrderController
         public ActionResult OrderPage()
         {
-            var orderList = orderRepository.GetOrders();
+            IEnumerable<Order> orderList = null!;
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                orderList = orderRepository.GetOrders(memberID);
+
+            }
+            else
+            {
+                orderList = orderRepository.GetOrders(null);               
+            }
             return View(orderList);
         }
 
         // GET: OrderController/Details/5
         public ActionResult OrderDetails(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -35,6 +47,11 @@ namespace eStore.Controllers
         // GET: OrderController/Create
         public ActionResult CreateOrder()
         {
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                return RedirectToAction(nameof(OrderPage));
+            }
             return View();
         }
 
@@ -61,6 +78,11 @@ namespace eStore.Controllers
         // GET: OrderController/Edit/5
         public ActionResult EditOrder(int? id)
         {
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                return RedirectToAction(nameof(OrderPage));
+            }
             if (id == null)
             {
                 return NotFound();
@@ -76,11 +98,11 @@ namespace eStore.Controllers
         // POST: OrderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditOrder(int id, Order order)
+        public ActionResult EditOrder(int orderId, Order order)
         {
             try
             {
-                if (id != order.OrderId)
+                if (orderId != order.OrderId)
                 {
                     return NotFound();
                 }
@@ -100,6 +122,11 @@ namespace eStore.Controllers
         // GET: OrderController/Delete/5
         public ActionResult DeleteOrder(int? id)
         {
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                return RedirectToAction(nameof(OrderPage));
+            }
             if (id == null)
             {
                 return NotFound();
@@ -115,11 +142,11 @@ namespace eStore.Controllers
         // POST: OrderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteOrder(int id, IFormCollection collection)
+        public ActionResult DeleteOrder(int orderId, IFormCollection collection)
         {
             try
             {
-                orderRepository.DeleteOrder(id);
+                orderRepository.DeleteOrder(orderId);
                 return RedirectToAction(nameof(OrderPage));
             }
             catch (Exception ex)

@@ -10,8 +10,9 @@ namespace DataAccess.Repository
 
         public IEnumerable<Member> GetMembers() => MemberDAO.Instance.GetMembers();
 
-        public Member GetMember(int? memberId) => MemberDAO.Instance.GetMember(memberId,null,null);
-        
+#nullable enable
+        public Member GetMember(int? memberId, string? email, string? password) => MemberDAO.Instance.GetMember(memberId, email, password);
+
         public void InsertMember(Member member) => MemberDAO.Instance.AddMember(member);
 
         public void UpdateMember(Member member) => MemberDAO.Instance.UpdateMember(member);

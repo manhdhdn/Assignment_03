@@ -17,7 +17,6 @@ namespace eStore.Controllers
 
         private readonly ILogger<HomeController> _logger;
 
-        Member user = null;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -31,6 +30,14 @@ namespace eStore.Controllers
         }
 
         public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
+        public IActionResult UserPage()
         {
             return View();
         }
@@ -65,23 +72,21 @@ namespace eStore.Controllers
                     if (checkAdminResult)
                     {
                         HttpContext.Session.SetInt32("MemberID", 0);
-                        return RedirectToAction(nameof(MemberPage), "Member");
+                        return RedirectToAction(nameof(AdminPage), "Home");
                     }
                     else
                     {
-                        bool check = memberRepository.Login(email, password);
-                        if (check)
+                        try
                         {
-                             HttpContext.Session.SetInt32("MemberID", user.MemberId);
-                            return RedirectToAction(nameof(Login), "Member");
+                            var user = memberRepository.GetMember(null, email, password);
+                            HttpContext.Session.SetInt32("MemberID", user.MemberId);
+                            return RedirectToAction(nameof(UserPage), "Home");
                         }
-                        else
+                        catch (Exception)
                         {
                             ViewBag.Message3 = "Wrong email or password";
                             
-
                         }
-
                     }
                 }
                 ViewBag.Email = email;

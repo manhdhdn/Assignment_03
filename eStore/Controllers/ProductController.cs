@@ -64,11 +64,11 @@ namespace eStore.Controllers
         // POST: ViewProductsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProduct(int id, Product product)
+        public ActionResult EditProduct(int productId, Product product)
         {
             try
             {
-                if(id != product.ProductId)
+                if(productId != product.ProductId)
                 {
                     return NotFound();
                 }
@@ -103,11 +103,11 @@ namespace eStore.Controllers
         // POST: ViewProductsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteProduct(int id)
+        public ActionResult DeleteProduct(int productId)
         {
             try
             {
-                productsRepository.DeleteProduct(id);
+                productsRepository.DeleteProduct(productId);
                 return RedirectToAction(nameof(Product));
             }
             catch(Exception ex)
@@ -124,6 +124,7 @@ namespace eStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+#nullable enable
         public ActionResult SearchProduct(string? productName, decimal? fromPrice, decimal? toPrice)
         {
             try

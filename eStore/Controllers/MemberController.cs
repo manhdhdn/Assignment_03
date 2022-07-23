@@ -14,6 +14,12 @@ namespace eStore.Controllers
         // GET: MemberController
         public ActionResult MemberPage()
         {
+
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                return RedirectToAction(nameof(DetailsMember));
+            }
             var memberList = memberRepository.GetMembers();
             return View(memberList);
         }
@@ -21,14 +27,20 @@ namespace eStore.Controllers
         // GET: MemberController/Details/5
         public ActionResult DetailsMember(int? id)
         {
+            var memberID = HttpContext.Session.GetInt32("MemberID");
+            if (memberID != 0)
+            {
+                id = memberID;
+
+            }
             if (id == null)
             {
                 return NotFound();
             }
-            var member = memberRepository.GetMember(id);
-            if (member == null) 
-            { 
-                return NotFound(); 
+            var member = memberRepository.GetMember(id, null, null);
+            if (member == null)
+            {
+                return NotFound();
             }
             return View(member);
         }
@@ -63,7 +75,7 @@ namespace eStore.Controllers
             {
                 return NotFound();
             }
-            var member = memberRepository.GetMember(id);
+            var member = memberRepository.GetMember(id, null, null);
             if (member == null)
             {
                 return NotFound();
@@ -74,11 +86,11 @@ namespace eStore.Controllers
         // POST: MemberController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMember(int id, Member member)
+        public ActionResult EditMember(int memberId, Member member)
         {
             try
             {
-                if (id != member.MemberId)
+                if (memberId != member.MemberId)
                 {
                     return NotFound();
                 }
@@ -102,7 +114,7 @@ namespace eStore.Controllers
             {
                 return NotFound();
             }
-            var member = memberRepository.GetMember(id);
+            var member = memberRepository.GetMember(id, null, null);
             if (member == null)
             {
                 return NotFound();
@@ -113,11 +125,11 @@ namespace eStore.Controllers
         // POST: MemberController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteMember(int? id, IFormCollection collection)
+        public ActionResult DeleteMember(int memberId)
         {
             try
             {
-                memberRepository.DeleteMember(id);
+                memberRepository.DeleteMember(memberId);
                 return RedirectToAction(nameof(MemberPage));
             }
             catch (Exception ex)

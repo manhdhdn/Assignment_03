@@ -25,13 +25,20 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<Order> GetOrders(int? memberId)
         {
             try
             {
                 using FStore2Context context = new();
 
-                return context.Orders.ToList();
+                var orders = context.Orders.AsQueryable();
+
+                if (memberId != null)
+                {
+                    orders = orders.Where(o => o.MemberId == memberId);
+                }
+
+                return orders.ToList();
             }
             catch (Exception ex)
             {
