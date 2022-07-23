@@ -86,7 +86,7 @@ namespace DataAccess
             {
                 using FStore2Context context = new();
 
-                if (context.OrderDetails.Any(m => m.OrderId == orderDetail.OrderId && m.ProductId == orderDetail.ProductId))
+                if (!context.OrderDetails.Any(m => m.OrderId == orderDetail.OrderId && m.ProductId == orderDetail.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }
@@ -108,7 +108,7 @@ namespace DataAccess
 
                 var orderDetail = GetOrderDetail(orderId, productId);
 
-                if (context.OrderDetails.Any(m => m.OrderId == orderDetail.OrderId && m.ProductId == orderDetail.ProductId))
+                if (!context.OrderDetails.Any(m => m.OrderId == orderDetail.OrderId && m.ProductId == orderDetail.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }

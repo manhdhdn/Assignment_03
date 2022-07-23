@@ -104,7 +104,7 @@ namespace DataAccess
             {
                 using FStore2Context context = new();
 
-                if (context.Products.Any(m => m.ProductId == product.ProductId))
+                if (!context.Products.Any(m => m.ProductId == product.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }
@@ -126,7 +126,7 @@ namespace DataAccess
 
                 var product = GetProduct(productId);
 
-                if (context.Products.Any(m => m.ProductId == product.ProductId))
+                if (!context.Products.Any(m => m.ProductId == product.ProductId))
                 {
                     throw new Exception("Not exists.");
                 }
