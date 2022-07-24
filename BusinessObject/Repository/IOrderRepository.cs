@@ -1,11 +1,12 @@
 ﻿using DataAccess.Models;
 using System.Collections.Generic;
+using System;
 
 namespace DataAccess.Repository
 {
     public interface IOrderRepository
     {
-        IEnumerable<Order> GetOrders(int? memberId);
+        IEnumerable<Order> GetOrders(int? memberId, DateTime? startDate, DateTime? endDate);
 
         Order GetOrder(int orderId);
 

@@ -6,7 +6,7 @@ namespace DataAccess.Repository
 {
     public class OrderRepository : IOrderRepository
     {
-        public IEnumerable<Order> GetOrders(int? memberId) => OrderDAO.Instance.GetOrders(memberId);
+        public IEnumerable<Order> GetOrders(int? memberId, DateTime? startDate, DateTime? endDate) => OrderDAO.Instance.GetOrders(memberId, startDate, endDate);
 
         public Order GetOrder(int orderId) => OrderDAO.Instance.GetOrder(orderId);
 

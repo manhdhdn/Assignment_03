@@ -25,7 +25,7 @@ namespace DataAccess
             }
         }
 
-        public IEnumerable<Order> GetOrders(int? memberId)
+        public IEnumerable<Order> GetOrders(int? memberId, DateTime? startDate, DateTime? endDate )
         {
             try
             {
@@ -36,6 +36,16 @@ namespace DataAccess
                 if (memberId != null)
                 {
                     orders = orders.Where(o => o.MemberId == memberId);
+                }
+
+                if (startDate != null)
+                {
+                    orders = orders.Where(o => o.OrderDate >= startDate);
+                }
+
+                if(endDate != null)
+                {
+                    orders = orders.Where(o => o.OrderDate <= endDate);
                 }
 
                 return orders.ToList();
@@ -128,5 +138,6 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
+       
     }
 }

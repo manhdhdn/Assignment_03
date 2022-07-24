@@ -9,7 +9,7 @@ namespace eStore.Controllers
 {
     public class OrderController : Controller
     {
-        IOrderRepository orderRepository = null;
+        readonly IOrderRepository orderRepository = null;
         public OrderController() => orderRepository = new OrderRepository();
         // GET: OrderController
         public ActionResult OrderPage()
@@ -18,12 +18,12 @@ namespace eStore.Controllers
             var memberID = HttpContext.Session.GetInt32("MemberID");
             if (memberID != 0)
             {
-                orderList = orderRepository.GetOrders(memberID);
+                orderList = orderRepository.GetOrders(memberID, null, null);
 
             }
             else
             {
-                orderList = orderRepository.GetOrders(null);               
+                orderList = orderRepository.GetOrders(null, null, null);               
             }
             return View(orderList);
         }
@@ -148,6 +148,27 @@ namespace eStore.Controllers
             {
                 orderRepository.DeleteOrder(orderId);
                 return RedirectToAction(nameof(OrderPage));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+                return View();
+            }
+        }
+
+        public ActionResult Report()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Report(DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                var orderList = orderRepository.GetOrders(null, startDate, endDate);
+                return View();
             }
             catch (Exception ex)
             {
